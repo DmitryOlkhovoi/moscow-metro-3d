@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Метро Москвы 3D</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Ccircle cx=%2220%22 cy=%2220%22 r=%2220%22 fill=%22%23d9231d%22/%3E%3Crect x=%2211.5%22 y=%229%22 width=%2217%22 height=%2219%22 rx=%225%22 fill=%22white%22/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body data-theme="light">
+  <div id="app"></div>
+
+  <aside id="panel" class="panel">
+    <header class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="20" fill="var(--red)"/>
+        <rect x="11.5" y="9" width="17" height="19" rx="5" fill="#fff"/>
+        <rect x="14.5" y="12" width="11" height="7" rx="2" fill="var(--red)"/>
+        <circle cx="15.5" cy="23.5" r="1.7" fill="var(--red)"/>
+        <circle cx="24.5" cy="23.5" r="1.7" fill="var(--red)"/>
+        <path d="M14 28.5l-2.5 3.5M26 28.5l2.5 3.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>
+      <div class="brand-text">
+        <b>Метро Москвы</b>
+        <span>3D-схема с реальными глубинами</span>
+      </div>
+      <button id="panel-toggle" class="icon-btn" title="Свернуть панель" aria-label="Свернуть панель">
+        <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </header>
+
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="route" class="active">Маршрут</button>
+      <button role="tab" data-tab="view">Вид</button>
+      <button role="tab" data-tab="lines">Линии</button>
+    </nav>
+
+    <div class="panel-body">
+      <!-- Маршрут -->
+      <section data-pane="route">
+        <div class="route-form">
+          <div class="rf-fields">
+            <label class="field">
+              <span class="pin from"></span>
+              <input id="from" placeholder="Откуда" autocomplete="off" spellcheck="false">
+            </label>
+            <label class="field">
+              <span class="pin to"></span>
+              <input id="to" placeholder="Куда" autocomplete="off" spellcheck="false">
+            </label>
+          </div>
+          <button id="swap" class="icon-btn swap" title="Поменять местами" aria-label="Поменять местами">
+            <svg viewBox="0 0 24 24"><path d="M8 4v16M8 4L4.5 7.5M8 4l3.5 3.5M16 20V4m0 16l-3.5-3.5M16 20l3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div id="route-result" class="route-result"></div>
+      </section>
+
+      <!-- Вид -->
+      <section data-pane="view" hidden>
+        <div class="group">
+          <div class="row"><label for="exaggeration">Масштаб глубины</label><output id="exaggeration-value">×10</output></div>
+          <input id="exaggeration" type="range" min="1" max="50" step="1" value="10">
+          <p class="hint">×1 — реальные пропорции: глубины до 84 м на городе 40 км почти не видны.</p>
+        </div>
+        <div class="group">
+          <div class="row">
+            <label for="basemap">Карта</label>
+            <select id="basemap" autocomplete="off">
+              <option value="light">Светлая</option>
+              <option value="dark">Тёмная</option>
+              <option value="streets">Улицы</option>
+              <option value="satellite">Спутник</option>
+              <option value="none">Без карты</option>
+            </select>
+          </div>
+          <div class="row"><label for="opacity">Плотность карты</label><input id="opacity" type="range" min="0.1" max="1" step="0.05" value="0.85"></div>
+        </div>
+        <div class="group">
+          <div class="row">
+            <label for="theme">Тема</label>
+            <select id="theme" autocomplete="off">
+              <option value="light">Светлая</option>
+              <option value="dark">Тёмная</option>
+            </select>
+          </div>
+        </div>
+        <div class="group">
+          <div class="row">
+            <label for="voice">Голос объявлений</label>
+            <button id="voice-test" class="link" type="button">прослушать</button>
+          </div>
+          <select id="voice" class="wide" autocomplete="off"></select>
+          <p id="voice-hint" class="hint" hidden></p>
+        </div>
+        <div class="group segmented">
+          <button data-view="3d">3D</button>
+          <button data-view="top">Сверху</button>
+          <button data-view="side">Разрез</button>
+          <button id="ruler" title="Измерить расстояние между двумя станциями">Линейка</button>
+        </div>
+        <div class="group checks">
+          <label><input type="checkbox" id="opt-labels" checked><span>Подписи</span></label>
+          <label><input type="checkbox" id="opt-shafts" checked><span>Вертикали</span></label>
+          <label><input type="checkbox" id="opt-transfers" checked><span>Пересадки</span></label>
+          <label><input type="checkbox" id="opt-sound" autocomplete="off"><span>Звук в поездке</span></label>
+        </div>
+      </section>
+
+      <!-- Линии -->
+      <section data-pane="lines" hidden>
+        <div class="row lines-head">
+          <span class="muted">Показывать на схеме</span>
+          <span class="links"><button id="lines-all" class="link">все</button> · <button id="lines-none" class="link">ни одной</button></span>
+        </div>
+        <ul id="lines" class="lines"></ul>
+      </section>
+    </div>
+
+    <footer class="panel-foot">
+      © участники <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>,
+      Wikidata, Википедия · карта © <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a> ·
+      звуки: Freesound. Неофициальный проект ·
+      <a class="gh" href="https://github.com/DmitryOlkhovoi/moscow-metro-3d" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.66 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0z"/></svg>GitHub</a>
+    </footer>
+  </aside>
+
+  <ul id="ac" class="ac" hidden></ul>
+  <div id="toasts" class="toasts"></div>
+  <aside id="info" class="card info" hidden></aside>
+
+  <div id="hud" class="hud" hidden>
+    <div class="hud-top">
+      <div class="hud-line"></div>
+      <div class="hud-progress"><i></i></div>
+      <button class="icon-btn hud-exit" title="Выйти (Esc)" aria-label="Выйти">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="hud-main">
+      <div class="speedo">
+        <svg viewBox="0 0 120 72" aria-hidden="true">
+          <path class="track" d="M10 66 A50 50 0 0 1 110 66" />
+          <path class="limit" d="M10 66 A50 50 0 0 1 110 66" pathLength="100" />
+          <path class="value" d="M10 66 A50 50 0 0 1 110 66" pathLength="100" />
+        </svg>
+        <b class="speed">0</b><span class="unit">км/ч</span>
+      </div>
+      <div class="hud-next">
+        <span class="lbl">Следующая</span>
+        <span class="name"></span>
+        <span class="dist"></span>
+        <div class="platform" hidden>
+          <div class="zone"></div><div class="perfect"></div><i class="mark"></i>
+        </div>
+      </div>
+      <div class="hud-stats">
+        <div><span>Глубина</span><b class="depth">0 м</b></div>
+        <div class="score-box"><span>Очки</span><b class="score">0</b></div>
+        <div><span>Время</span><b class="time">0:00</b></div>
+      </div>
+    </div>
+    <div class="hud-bottom">
+      <div class="speeds" role="group" aria-label="Ускорение времени">
+        <button data-scale="1">×1</button><button data-scale="3">×3</button><button data-scale="6">×6</button><button data-scale="12">×12</button>
+      </div>
+      <div class="hud-tools">
+        <button class="tool hud-cab" title="Вид из кабины (V)">
+          <svg viewBox="0 0 24 24"><path d="M4 18V9a5 5 0 0 1 5-5h6a5 5 0 0 1 5 5v9M4 13h16M8 18v2M16 18v2M7 16h.01M17 16h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span>Кабина</span>
+        </button>
+        <button class="tool hud-sound" title="Выключить звук (M)">
+          <svg class="on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4zM16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="mute" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4zM17 9l5 6M22 9l-5 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="keys">
+        <kbd>↑</kbd> ход <kbd>↓</kbd> тормоз <kbd>␣</kbd> экстренный <kbd>V</kbd> кабина <kbd>M</kbd> звук <kbd>Esc</kbd> выход
+      </div>
+    </div>
+    <div class="hud-touch">
+      <button data-ctl="brake">Тормоз</button>
+      <button data-ctl="throttle">Ход</button>
+    </div>
+  </div>
+
+  <div id="scalebar" class="scalebar"><div class="bar"></div><span></span></div>
+  <div id="loading" class="loading"><span>Загрузка схемы…</span></div>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "moscow-metro-3d",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "data": "node scripts/build-data.mjs",
+    "start": "python3 scripts/serve.py 8080"
+  }
+}
