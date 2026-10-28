@@ -2,9 +2,9 @@
 // Путь — реальные метры вдоль OSM-путей; при отрисовке высота умножается на преувеличение глубины.
 // Два вида: снаружи (камера следует за составом) и из кабины машиниста.
 import * as THREE from 'three';
-import { ORDER } from './scene.js?v=4071239a';
-import { samplePath, CabWorld, Cockpit, EYE } from './cab.js?v=4071239a';
-import { arrivalText, departureText } from './audio.js?v=4071239a';
+import { ORDER } from './scene.js?v=8fa5fb9b';
+import { samplePath, CabWorld, Cockpit, EYE } from './cab.js?v=8fa5fb9b';
+import { arrivalText, departureText } from './audio.js?v=8fa5fb9b';
 
 const VMAX = 80 / 3.6;        // ограничение скорости, м/с
 const VHARD = 90 / 3.6;       // больше поезд не разгоняется

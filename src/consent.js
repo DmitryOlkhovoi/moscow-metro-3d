@@ -1,8 +1,8 @@
 // Согласие на cookie и аналитику (152-ФЗ): Яндекс Метрика загружается только после «Принять».
 // Пока номер счётчика не задан, баннер не показывается и аналитики нет.
-import { readSetting, writeSetting } from './storage.js?v=4071239a';
+import { readSetting, writeSetting } from './storage.js?v=8fa5fb9b';
 
-export const METRIKA_ID = null; // номер счётчика Яндекс Метрики, например 12345678
+export const METRIKA_ID = 113863096; // номер счётчика Яндекс Метрики
 
 const KEY = 'consent'; // 'granted' | 'denied'
 
@@ -57,7 +57,11 @@ function loadMetrika() {
   window.ym.l = Date.now();
   const s = document.createElement('script');
   s.async = true;
-  s.src = 'https://mc.yandex.ru/metrika/tag.js';
+  s.src = `https://mc.yandex.ru/metrika/tag.js?id=${METRIKA_ID}`;
   document.head.append(s);
-  window.ym(METRIKA_ID, 'init', { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true });
+  // настройки — из кода счётчика в интерфейсе Метрики
+  window.ym(METRIKA_ID, 'init', {
+    ssr: true, webvisor: true, clickmap: true, ecommerce: 'dataLayer',
+    referrer: document.referrer, url: location.href, accurateTrackBounce: true, trackLinks: true,
+  });
 }
