@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "data": "node scripts/build-data.mjs",
+    "stamp": "node scripts/stamp.mjs",
     "start": "python3 scripts/serve.py 8080"
   }
 }
