@@ -1,7 +1,7 @@
 // Звуки поездки: настоящие записи московского метро (Freesound, CC0 — см. sounds/CREDITS.md),
 // нарезанные на петли «стоянка» и «ход» и разовые «разгон», «торможение», «двери».
 // Объявления произносит системный синтез речи браузера (Web Speech API, ru-RU).
-import { readSetting, writeSetting } from './storage.js?v=4d6c4aae';
+import { readSetting, writeSetting } from './storage.js?v=54a59237';
 
 const CLIPS = {
   idle: 'sounds/idle.wav',

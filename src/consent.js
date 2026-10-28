@@ -1,6 +1,6 @@
 // Согласие на cookie и аналитику (152-ФЗ): Яндекс Метрика загружается только после «Принять».
 // Пока номер счётчика не задан, баннер не показывается и аналитики нет.
-import { readSetting, writeSetting } from './storage.js?v=4d6c4aae';
+import { readSetting, writeSetting } from './storage.js?v=54a59237';
 
 export const METRIKA_ID = 113863096; // номер счётчика Яндекс Метрики
 

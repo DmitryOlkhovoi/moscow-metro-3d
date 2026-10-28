@@ -2,9 +2,9 @@
 // Путь — реальные метры вдоль OSM-путей; при отрисовке высота умножается на преувеличение глубины.
 // Два вида: снаружи (камера следует за составом) и из кабины машиниста.
 import * as THREE from 'three';
-import { ORDER } from './scene.js?v=4d6c4aae';
-import { samplePath, CabWorld, Cockpit, EYE } from './cab.js?v=4d6c4aae';
-import { arrivalText, departureText } from './audio.js?v=4d6c4aae';
+import { ORDER } from './scene.js?v=54a59237';
+import { samplePath, CabWorld, Cockpit, EYE } from './cab.js?v=54a59237';
+import { arrivalText, departureText } from './audio.js?v=54a59237';
 
 const VMAX = 80 / 3.6;        // ограничение скорости, м/с
 const VHARD = 90 / 3.6;       // больше поезд не разгоняется
@@ -325,7 +325,7 @@ export class TrainRide {
     const v0 = this.v;
 
     if (this.phase === 'dwell') {
-      this.time += dt;
+      this.time += dtR; // на стоянке время не ускоряем: она и объявления идут в реальном времени
     } else if (this.phase === 'transfer') {
       this.phaseLeft -= dtR;
       if (this.phaseLeft <= 0) {
