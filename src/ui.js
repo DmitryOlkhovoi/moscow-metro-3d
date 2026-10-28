@@ -221,7 +221,7 @@ export function initUI({
       </div>
       <div class="actions">
         <button class="btn primary" data-ride="auto">${ICON_PLAY}Поездка</button>
-        <button class="btn" data-ride="manual">${ICON_DRIVE}Машинист</button>
+        <button class="btn game" data-ride="manual">${ICON_DRIVE}Машинист<span class="tag">игра</span></button>
       </div>
       <ol class="steps">`;
     route.legs.forEach((leg, i) => {
@@ -350,7 +350,7 @@ export function initUI({
         <td class="num">${esc(s.grade)}<span class="sub">${s.offset == null ? '—' : `${Math.round(Math.abs(s.offset))} м`}</span></td></tr>`).join('')}</table>` : ''}
       <div class="actions">
         <button class="btn" data-again="auto">${ICON_PLAY}Ещё раз</button>
-        <button class="btn primary" data-again="manual">${ICON_DRIVE}Машинист</button>
+        <button class="btn game" data-again="manual">${ICON_DRIVE}Машинист</button>
       </div>`;
     info.hidden = false;
   }

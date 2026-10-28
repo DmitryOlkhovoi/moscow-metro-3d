@@ -132,10 +132,14 @@ function fitStations(stations) {
   const center = box.getCenter(new THREE.Vector3());
   center.y = 0;
   const size = box.getSize(new THREE.Vector3());
-  const dist = Math.max(size.x, size.z, 1500) * 1.25 + 800;
-  const panelShift = innerWidth > 760 ? -dist * 0.12 : 0; // панель закрывает левую часть экрана
-  center.x += panelShift;
-  flyTo(center, new THREE.Vector3(-0.25, 0.75, 0.6).normalize().multiplyScalar(dist), 1000);
+  const offset = new THREE.Vector3(-0.25, 0.75, 0.6).normalize();
+  const mobile = innerWidth <= 760 && !document.getElementById('panel').classList.contains('collapsed');
+  // на телефоне панель снизу закрывает больше половины экрана: отдаляемся и сдвигаем точку обзора
+  // к камере, чтобы маршрут оказался в верхней видимой части
+  const dist = (Math.max(size.x, size.z, 1500) * 1.25 + 800) * (mobile ? 1.9 : 1);
+  if (mobile) center.addScaledVector(new THREE.Vector3(offset.x, 0, offset.z).normalize(), dist * 0.42);
+  else if (innerWidth > 760) center.x -= dist * 0.12; // панель закрывает левую часть экрана
+  flyTo(center, offset.multiplyScalar(dist), 1000);
 }
 
 camera.position.set(-18000, 38000, 48000);
@@ -218,8 +222,6 @@ function setRoute(from, to) {
   if (from && to) {
     ui.showRoute(route);
     if (route) fitStations(route.stations);
-    // на телефоне панель закрывает полэкрана — сворачиваем, чтобы был виден маршрут
-    if (route && innerWidth <= 760) document.getElementById('panel').classList.add('collapsed');
   }
 }
 
@@ -246,7 +248,7 @@ function startRide(mode) {
     onCab: () => ride?.setCab(!ride.cab),
   });
   ui.toast(mode === 'manual'
-    ? 'Машинист: ↑ — ход, ↓ — тормоз. Остановитесь у платформы!'
+    ? 'Машинист: ↑ — ускорение, ↓ — тормоз. Остановитесь у платформы!'
     : `Поездка: ${route.from.name} → ${route.to.name}`, 'info');
 }
 

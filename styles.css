@@ -100,7 +100,10 @@ a { color: var(--red); }
 .tabs button.active { background: var(--card); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
 
 .panel-body { flex: 1; overflow-y: auto; padding: 16px 18px; }
-.panel-foot { padding: 10px 18px 14px; font-size: 11px; line-height: 1.4; color: var(--muted); border-top: 1px solid var(--border); }
+.panel-body { display: flex; flex-direction: column; }
+.panel-body > section { flex: none; }
+/* футер — в конце прокручиваемой части, не отнимает место у содержимого */
+.panel-foot { margin: auto -18px -16px; padding: 14px 18px 16px; font-size: 11px; line-height: 1.45; color: var(--muted); border-top: 1px solid var(--border); }
 
 .group { padding: 14px 0; border-bottom: 1px solid var(--border); }
 .group:first-child { padding-top: 0; }
@@ -370,3 +373,12 @@ select.wide { width: 100%; margin-top: 6px; }
 
 .panel-foot .gh { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; white-space: nowrap; }
 .panel-foot .gh svg { width: 13px; height: 13px; }
+
+/* «Машинист» — тёмная кнопка с меткой «игра», чтобы отличалась от «Поездки» */
+.btn.game { background: var(--text); color: var(--card); }
+.btn.game:hover { background: #33373d; }
+body[data-theme="dark"] .btn.game:hover { background: #d6d9de; }
+.btn .tag {
+  padding: 2px 7px; border-radius: 8px; background: #ffd34d; color: #1a1a1a;
+  font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px;
+}
