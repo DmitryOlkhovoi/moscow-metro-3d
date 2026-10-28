@@ -1,5 +1,5 @@
 // Панель (маршрут, вид, линии), автодополнение станций, карточка станции, HUD поездки и тосты
-import { fmtDepth, fmtDist, fmtMinutes } from './scene.js?v=8fa5fb9b';
+import { fmtDepth, fmtDist, fmtMinutes } from './scene.js?v=3261de61';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));

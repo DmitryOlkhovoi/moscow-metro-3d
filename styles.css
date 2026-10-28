@@ -334,7 +334,12 @@ body.riding .scalebar { display: none; }
   .hud-next .name { font-size: 16px; }
   .keys { display: none; }
   .hud:not(.auto) .hud-touch { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-  .hud-touch button { height: 56px; border-radius: 16px; border: none; font-weight: 800; font-size: 16px; touch-action: none; user-select: none; -webkit-user-select: none; }
+  .hud-touch button {
+    height: 62px; border-radius: 16px; border: none; font-weight: 800; font-size: 16px; line-height: 1.15;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+  }
+  .hud-touch button small { font-size: 11px; font-weight: 600; opacity: 0.7; }
   .hud-touch [data-ctl="brake"] { background: var(--card-2); }
   .hud-touch [data-ctl="throttle"] { background: var(--good); color: #fff; }
   .hud-touch button.on { filter: brightness(0.85); }
