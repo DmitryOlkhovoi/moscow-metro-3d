@@ -19,7 +19,8 @@ const v = hash.digest('hex').slice(0, 8);
 const stamped = {
   'index.html': contents['index.html'].replace(STRIP, '')
     .replace('href="styles.css"', `href="styles.css?v=${v}"`)
-    .replace('src="src/main.js"', `src="src/main.js?v=${v}"`),
+    .replace('src="src/main.js"', `src="src/main.js?v=${v}"`)
+    .replace('src="src/consent.js"', `src="src/consent.js?v=${v}"`),
 };
 for (const f of modules) {
   stamped[f] = contents[f].replace(STRIP, '').replace(/(from '\.\/[\w-]+\.js)'/g, `$1?v=${v}'`);

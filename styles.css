@@ -399,3 +399,7 @@ body[data-theme="dark"] .btn.game:hover { background: #d6d9de; }
 .consent-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .consent .btn { height: 40px; font-size: 14px; }
 @media (max-width: 760px) { .consent { right: 8px; left: 8px; bottom: 8px; width: auto; } }
+
+.loading .fail { display: none; max-width: 300px; text-align: center; color: var(--text); }
+.loading.failed .wait { display: none; }
+.loading.failed .fail { display: block; }

@@ -8,12 +8,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=3261de61">
+  <link rel="stylesheet" href="styles.css?v=4d6c4aae">
   <script type="importmap">
     {
       "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+        "three": "./vendor/three/three.module.js",
+        "three/addons/": "./vendor/three/addons/"
       }
     }
   </script>
@@ -199,8 +199,13 @@
   </div>
 
   <div id="scalebar" class="scalebar"><div class="bar"></div><span></span></div>
-  <div id="loading" class="loading"><span>Загрузка схемы…</span></div>
+  <div id="loading" class="loading">
+    <span class="wait">Загрузка схемы…</span>
+    <span class="fail">Не удалось загрузить схему — проверьте соединение и обновите страницу.</span>
+  </div>
 
-  <script type="module" src="src/main.js?v=3261de61"></script>
+  <!-- согласие и аналитика не зависят от 3D-части: работают, даже если она не загрузилась -->
+  <script type="module" src="src/consent.js?v=4d6c4aae"></script>
+  <script type="module" src="src/main.js?v=4d6c4aae" onerror="document.getElementById('loading').classList.add('failed')"></script>
 </body>
 </html>
