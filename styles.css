@@ -382,3 +382,15 @@ body[data-theme="dark"] .btn.game:hover { background: #d6d9de; }
   padding: 2px 7px; border-radius: 8px; background: #ffd34d; color: #1a1a1a;
   font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px;
 }
+
+/* ---------- согласие на cookie ---------- */
+
+.foot-link { font-size: inherit; font-weight: 400; text-decoration: underline; }
+.consent {
+  position: fixed; right: 16px; bottom: 16px; z-index: 60; width: min(420px, calc(100% - 32px));
+  padding: 16px 18px; font-size: 13px; line-height: 1.5;
+}
+.consent p { margin: 0 0 12px; }
+.consent-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.consent .btn { height: 40px; font-size: 14px; }
+@media (max-width: 760px) { .consent { right: 8px; left: 8px; bottom: 8px; width: auto; } }

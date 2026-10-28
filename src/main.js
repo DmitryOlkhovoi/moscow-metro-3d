@@ -4,13 +4,15 @@ import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer
 import { Line2 } from 'three/addons/lines/Line2.js';
 import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
-import { MetroScene, ORDER, fmtDist } from './scene.js?v=94848839';
-import { Basemap } from './basemap.js?v=94848839';
-import { Router } from './router.js?v=94848839';
-import { TrainRide } from './train.js?v=94848839';
-import { MetroAudio, readSetting, writeSetting } from './audio.js?v=94848839';
-import { unproject } from './projection.js?v=94848839';
-import { initUI } from './ui.js?v=94848839';
+import { MetroScene, ORDER, fmtDist } from './scene.js?v=4071239a';
+import { Basemap } from './basemap.js?v=4071239a';
+import { Router } from './router.js?v=4071239a';
+import { TrainRide } from './train.js?v=4071239a';
+import { MetroAudio } from './audio.js?v=4071239a';
+import { readSetting, writeSetting } from './storage.js?v=4071239a';
+import { initConsent } from './consent.js?v=4071239a';
+import { unproject } from './projection.js?v=4071239a';
+import { initUI } from './ui.js?v=4071239a';
 
 const BACKGROUNDS = { light: 0xe9ecef, dark: 0x0d1117 };
 const TUNNEL_FOG = new THREE.Color(0x07080a);
@@ -407,6 +409,7 @@ renderer.setAnimationLoop((now) => {
 
 applyTheme(theme);
 document.getElementById('loading').classList.add('done');
+initConsent();
 
 // для экспериментов из консоли браузера
 window.metro3d = {

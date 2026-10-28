@@ -2,8 +2,8 @@
 // Базовый слой (z11) покрывает весь город, детальный слой подгружается вокруг точки обзора.
 // Детальные тайлы пишут трафарет, и базовый слой под ними не рисуется — без двойного наложения.
 import * as THREE from 'three';
-import { project, unproject } from './projection.js?v=94848839';
-import { ORDER } from './scene.js?v=94848839';
+import { project, unproject } from './projection.js?v=4071239a';
+import { ORDER } from './scene.js?v=4071239a';
 
 const ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services';
 const STYLES = {

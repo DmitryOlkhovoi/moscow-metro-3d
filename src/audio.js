@@ -1,6 +1,7 @@
 // Звуки поездки: настоящие записи московского метро (Freesound, CC0 — см. sounds/CREDITS.md),
 // нарезанные на петли «стоянка» и «ход» и разовые «разгон», «торможение», «двери».
 // Объявления произносит системный синтез речи браузера (Web Speech API, ru-RU).
+import { readSetting, writeSetting } from './storage.js?v=4071239a';
 
 const CLIPS = {
   idle: 'sounds/idle.wav',
@@ -251,14 +252,4 @@ export function arrivalText(station, transferLines, terminal) {
 
 export function departureText(next) {
   return `Осторожно, двери закрываются. Следующая станция — ${next.name}.`;
-}
-
-// ---------- настройки ----------
-
-export function readSetting(key, fallback) {
-  try { return localStorage.getItem(`metro3d:${key}`) ?? fallback; } catch { return fallback; }
-}
-
-export function writeSetting(key, value) {
-  try { localStorage.setItem(`metro3d:${key}`, value); } catch { /* хранилище недоступно — не страшно */ }
 }
